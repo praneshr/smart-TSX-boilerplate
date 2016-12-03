@@ -14,8 +14,15 @@ const styles = require('./style')
 import Footer from '../components/footer'
 
 declare const Object: any
+
+interface IProps {
+  sample: {
+    name: String;
+  }
+}
+
 interface IUi {
-  ui: Object;
+  ui: IProps
 }
 
 interface IStates {
@@ -29,7 +36,7 @@ export interface IActions {
   }
 }
 
-const uiStates: (states: IStates) => IUi = states => ({
+const uiStates: (states: IStates) => Object = states => ({
   ui: states.reducer,
 })
 
@@ -71,7 +78,7 @@ class Root extends React.Component<IUi & IActions, {}> {
             { this.props.children }
           </div>
         </div>
-        <Footer />
+        <Footer name={this.props.ui.sample.name} />
       </div>
     )
   }
