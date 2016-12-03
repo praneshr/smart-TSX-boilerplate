@@ -11,7 +11,7 @@ export default class Sample extends React.Component<{}, {}> {
       <div styleName="header">
         <a
           styleName="link"
-          href="https://github.com/praneshr/smart-react-boilerplate"
+          href="https://github.com/praneshr/smart-tsx-boilerplate"
         >
           Fork me on Github
         </a>
