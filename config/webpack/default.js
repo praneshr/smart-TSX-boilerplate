@@ -1,9 +1,9 @@
-import HTMLwebpackPlugin from 'html-webpack-plugin'
-import autoprefixer from 'autoprefixer'
-import path from 'path'
-import webpack from 'webpack'
+const HTMLwebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const path = require('path')
+const webpack = require('webpack')
 
-const config = require('../server/default').default
+const config = require('../server/default')
 
 
 const entries = [
@@ -13,7 +13,7 @@ const entries = [
   './app/index.tsx',
 ]
 
-export default {
+module.exports = {
   browser: {
     entry: entries,
     resolve: {
@@ -94,9 +94,9 @@ export default {
     ],
   },
   server: {
-    entry: './server/',
+    entry: './server/index.ts',
     resolve: {
-      extensions: ['.js'],
+      extensions: ['.ts'],
     },
     node: {
       __dirname: false,
@@ -106,8 +106,8 @@ export default {
     module: {
       rules: [
         {
-          test: /\.js$/,
-          loader: 'babel-loader',
+          test: /\.ts$/,
+          loader: 'ts-loader',
           exclude: /node_modules/,
         },
       ],

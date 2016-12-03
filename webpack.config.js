@@ -1,7 +1,7 @@
-import _ from 'lodash'
-import config from 'config'
+const _ = require('lodash')
+const config = require('config')
 
-export default [
+module.exports = [
   _.omit(config.webpack.browser, 'watch'),
   _.omit(config.webpack.server, 'watch'),
 ]
