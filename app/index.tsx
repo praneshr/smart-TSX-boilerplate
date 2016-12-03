@@ -1,5 +1,5 @@
-declare const module: any
 import 'bootstrap-sass'
+import 'es6-shim'
 import * as React from 'react'
 import { AppContainer } from 'react-hot-loader'
 import { Provider } from 'react-redux'
@@ -7,6 +7,7 @@ import * as ReactDOM from 'react-dom'
 import Router from './router'
 import store from './store'
 
+declare const module: any
 
 /*
 This imports bootstrap styles globally.
