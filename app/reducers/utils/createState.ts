@@ -8,7 +8,7 @@ declare const Object: any
 
 export default (state: Object, payload: Object, key: string) => {
   const newState: Object = {
-    [key]: payload
+    [key]: payload,
   }
   return Object.assign({}, state, newState)
 }

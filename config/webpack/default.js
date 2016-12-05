@@ -57,6 +57,12 @@ module.exports = {
         },
         {
           test: /\.tsx?$/,
+          enforce: 'pre',
+          loader: 'tslint-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.tsx?$/,
           loaders: ['react-hot-loader/webpack', 'ts-loader'],
           exclude: /node_modules/,
         },
