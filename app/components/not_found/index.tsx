@@ -5,7 +5,7 @@ export default class MyComponent extends React.Component<{}, {}> {
   render() {
     return (
       <div className="MyComponent">
-        <button className="btn primary">Not Found</button>
+        Page Not Found
       </div>
     );
   }
