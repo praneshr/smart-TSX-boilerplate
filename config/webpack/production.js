@@ -1,41 +1,38 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
-import HTMLwebpackPlugin from 'html-webpack-plugin'
-import autoprefixer from 'autoprefixer'
-import CWP from 'clean-webpack-plugin'
-import path from 'path'
-import webpack from 'webpack'
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HTMLwebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const CWP = require('clean-webpack-plugin')
+const compression = require('compression-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
 
 const entries = [
-  'babel-polyfill',
-  './app/index.jsx',
+  './app/index.tsx',
 ]
-const vendor = new ExtractTextPlugin('vendor.min.css')
+
 const main = new ExtractTextPlugin('bundle.min.css')
-export default {
+
+module.exports = {
   browser: {
     entry: entries,
     module: {
       rules: [
         {
-          test: /\.global\.scss$/,
-          loader: vendor.extract({
+          test: /\.scss$/,
+          loader: main.extract({
             fallbackLoader: 'style-loader',
             loader: [
-              'css-loader?minimize',
+              'css-loader?modules&sourceMap&constLoaders = require(alIdentName=[hash:base64:6]',
               'sass-loader',
-              'sass-resources-loader',
-              'postcss-loader',
-            ],
-          }),
-        },
-        {
-          test: /^((?!\.global).)*\.scss/,
-          loaders: main.extract({
-            fallbackLoader: 'style-loader',
-            loader: [
-              'css-loader?modules&minimize&importLoaders=1&localIdentName=[hash:base64:15]',
-              'sass-loader',
-              'sass-resources-loader',
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  resources: [
+                    './app/globals/styles/_colors.scss',
+                    './app/globals/styles/_variables.scss',
+                  ],
+                },
+              },
               'postcss-loader',
             ],
           }),
@@ -49,8 +46,8 @@ export default {
           loader: 'url-loader',
         },
         {
-          test: /\.jsx?$/,
-          loader: 'babel-loader',
+          test: /\.tsx?$/,
+          loader: 'ts-loader',
           exclude: /node_modules/,
         },
       ],
@@ -61,7 +58,6 @@ export default {
       publicPath: '/assets/',
     },
     plugins: [
-      vendor,
       main,
       new HTMLwebpackPlugin({
         filename: '../index.html',
@@ -73,10 +69,25 @@ export default {
         },
       }),
       new webpack.optimize.UglifyJsPlugin({
-        compress: { warnings: false },
+        beautify: false,
+        comments: false,
+        compress: {
+          warnings: false,
+          drop_console: true,
+        },
+        mangle: {
+          except: ['webpackJsonp'],
+          screw_ie8: true,
+          keep_fnames: false,
+        },
       }),
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
+      new compression({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.js$|\.html$|\.css$/,
+      }),
+      new webpack.optimize.AggressiveMergingPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
@@ -99,7 +110,7 @@ export default {
     ],
   },
   server: {
-    entry: './server/',
+    entry: './server/index.ts',
     resolve: {
       extensions: ['.js'],
     },
@@ -111,14 +122,14 @@ export default {
     module: {
       rules: [
         {
-          test: /\.js$/,
-          loader: 'babel-loader',
+          test: /\.ts$/,
+          loader: 'ts-loader',
           exclude: /node_modules/,
         },
       ],
     },
     output: {
-      path: './',
+      path: path.resolve('./'),
       filename: 'server.js',
       libraryTarget: 'commonjs2',
     },

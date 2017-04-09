@@ -7,7 +7,6 @@ const config = require('../server/default')
 
 
 const entries = [
-  'babel-polyfill',
   'react-hot-loader/patch',
   `webpack-hot-middleware/client?http://localhost:${config.port}`,
   './app/index.tsx',
@@ -18,7 +17,7 @@ module.exports = {
     entry: entries,
     resolve: {
       alias: {
-        'bootstrap-global': path.resolve(__dirname, '../../app/globals/styles/bootstrap/index.scss'),
+        'global-styles': path.resolve(__dirname, '../../app/globals/styles/index.scss'),
       },
       extensions: ['.webpack.js', '.web.js', '.js', '.tsx', '.scss', '.html', '.ejs', '.ts'],
     },
@@ -28,22 +27,20 @@ module.exports = {
     module: {
       rules: [
         {
-          test: /\.global\.scss$/,
-          loaders: [
-            'style-loader',
-            'css-loader?sourceMap',
-            'sass-loader?sourceMap',
-            'sass-resources-loader',
-            'postcss-loader',
-          ],
-        },
-        {
-          test: /^((?!\.global).)*\.scss/,
+          test: /\.scss$/,
           loaders: [
             'style-loader',
             'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[hash:base64:15]',
             'sass-loader',
-            'sass-resources-loader',
+            {
+              loader: 'sass-resources-loader',
+              options: {
+                resources: [
+                  './app/globals/styles/_colors.scss',
+                  './app/globals/styles/_variables.scss',
+                ],
+              },
+            },
             'postcss-loader',
           ],
         },
@@ -79,7 +76,7 @@ module.exports = {
         template: './app/views/index.ejs',
       }),
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
       new webpack.ProvidePlugin({
         $: 'jquery',
         jQuery: 'jquery',
@@ -89,10 +86,6 @@ module.exports = {
           resolve: {},
           postcss: [
             autoprefixer(),
-          ],
-          sassResources: [
-            './app/globals/styles/_colors.scss',
-            './app/globals/styles/_variables.scss',
           ],
           context: path.resolve(__dirname, '../../'),
         },
@@ -119,7 +112,7 @@ module.exports = {
       ],
     },
     output: {
-      path: './',
+      path: path.resolve('./'),
       filename: 'server.js',
       libraryTarget: 'commonjs2',
     },
