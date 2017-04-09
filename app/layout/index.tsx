@@ -1,17 +1,16 @@
 import * as React from 'react'
-/* [5:1]
-'bootstrap-global' is a webpack resolve alias.
-*/
-const Bootstrap = require('bootstrap-global')
+import * as reactStyles from 'react-css-modules'
 
+import { actions } from '../actions'
+import { APIs } from '../APIs/'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as reactStyles from 'react-css-modules'
-import { APIs } from '../APIs/'
+
 import Header from '../components/header'
-import { actions } from '../actions'
-const styles = require('./style')
 import Footer from '../components/footer'
+
+const Bootstrap = require('global-styles')
+const styles = require('./style')
 
 declare const Object: any
 
@@ -42,17 +41,13 @@ const uiStates: (states: IStates) => Object = states => ({
 
 const uiActions: (dispatch: any) => IActions = dispatch => ({
   actions: bindActionCreators(
-    Object.assign({}, actions, APIs),
+    { ...actions, ...APIs },
     dispatch,
   ),
 })
 
 
-/* [33:1]
-combining 'layout' styles and Bootstrap styles
-to make it work with React CSS Modules.
-*/
-@reactStyles((Object).assign({}, styles, Bootstrap))
+@reactStyles({ ...styles, ...Bootstrap })
 class Root extends React.Component<IUi & IActions, {}> {
 
   componentDidMount() {

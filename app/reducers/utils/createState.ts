@@ -4,11 +4,12 @@
  * @param {*} payload - New state value.
  * @param {string} key - Key for the new state.
  */
-declare const Object: any
 
-export default (state: Object, payload: Object, key: string) => {
+const createState = (state: Object, payload: Object, key: string) => {
   const newState: Object = {
     [key]: payload,
   }
-  return Object.assign({}, state, newState)
+  return { ...state, ...newState }
 }
+
+export default createState

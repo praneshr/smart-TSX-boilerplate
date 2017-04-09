@@ -4,7 +4,7 @@ import Intro from './pages/intro'
 import Layout from './layout'
 import NotFound from './components/not_found/'
 
-export default () => (
+const router = () => (
   <Router history={browserHistory}>
     <Redirect from="/" to="/base" />
     <Redirect from="/base" to="/base/intro" />
@@ -14,3 +14,5 @@ export default () => (
     </Route>
   </Router>
 )
+
+export default router

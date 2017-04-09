@@ -10,7 +10,6 @@ export default function configureStore() {
   ))
   if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('../reducers/', () => {
-      /* eslint global-require: 0 */
       const nextRootReducer = require('../reducers').default
       store.replaceReducer(nextRootReducer)
     })
