@@ -15,23 +15,22 @@ A future proof <a href="https://facebook.github.io/react/">React</a> boilerplate
 - React CSS Modules (CSS Modules)
 - **HOT RELOAD**
 
-## Usage
-This project is still in a Beta. Please check back later.
+## Usage 
 
-You can try it out today if you have basic knowledge about React and Webpack environment. Please follow the **Development Setup**. 
+[Download](https://github.com/praneshr/smart-TSX-boilerplate/archive/master.zip) the latest zip file.
 
 ## Development Setup
 ```bash
-npm install
-npm run build
-npm start
+yarn install
+yarn run build
+yarn start
 ```
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Pranesh Ravi
+Copyright (c) 2017 Pranesh Ravi
 
 <br>
 <br>
